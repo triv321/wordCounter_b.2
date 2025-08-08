@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+tests/test_counter.py
+wordcount_tool/__init__.py
+wordcount_tool/counter.py
+wordcount_tool.egg-info/PKG-INFO
+wordcount_tool.egg-info/SOURCES.txt
+wordcount_tool.egg-info/dependency_links.txt
+wordcount_tool.egg-info/top_level.txt

@@ -1,60 +1,69 @@
-# Segment 2: The Core Logic - Advanced Python in Practice
+
+```markdown
+# Project: `wordcount-tool`
+> A robust, well-tested, and installable Python package for counting word frequencies in a text file, built following professional software engineering best practices.
+
+This repository documents the main project for the "Advanced Python for Production Systems" module of the AI Infrastructure Engineer Roadmap. The goal was not just to create a simple script, but to engineer a complete software package, starting with a professional project structure, building a robust object-oriented core, and validating its correctness with a comprehensive suite of automated tests.
+
+## Table of Contents
+1.  [Overview](#overview)
+2.  [Core Features](#core-features)
+3.  [Project Structure](#project-structure)
+4.  [Core Logic & Advanced Concepts](#core-logic--advanced-concepts)
+5.  [Robustness and Automated Testing](#robustness-and-automated-testing)
+6.  [Usage](#usage)
 
 ## Overview
 
-This segment marks a fundamental shift from simple scripting to professional software engineering. The focus was on building the core logic for the `wordcount-tool` by leveraging the power and structure of Object-Oriented Programming (OOP) and advanced functional concepts in Python.
+The ability to write code that works is the baseline. [cite_start]The ability to write code that is clean, maintainable, reusable, and reliable is what defines a professional engineer[cite: 70, 71]. This project was an exercise in building software with that professional standard in mind. It transforms a simple task—counting words—into a case study in modern Python development, covering project setup, object-oriented design, advanced language features, and automated testing.
 
-[cite_start]The goal was not just to write code that works, but to write code that is clean, maintainable, reusable, and efficient—the hallmarks of a production-grade system[cite: 70, 71]. This involved encapsulating the application's logic within a class and mastering a suite of advanced language features.
+## Core Features
+* **Object-Oriented Design:** Core logic is encapsulated in a `WordCounter` class, making it reusable and easy to manage.
+* **Robust Error Handling:** Safely handles common errors, such as a non-existent file, without crashing.
+* **High Test Coverage:** A full suite of unit tests written with `pytest` ensures the code's reliability, achieving 100% test coverage.
+* **Professional Structure:** Organized as a standard, installable Python package with clean separation of application and test code.
 
-## Core Concepts Mastered
+## Project Structure
+The project was set up using a standard, professional blueprint that separates concerns and enables robust testing and distribution.
 
-This segment was divided into two major areas: mastering advanced OOP and applying powerful functional programming concepts.
+```
 
-### 1. Advanced Object-Oriented Programming (OOP)
+wordcount-tool/
+├── .venv/               \# Isolated virtual environment
+├── wordcount\_tool/      \# The installable Python package
+│   ├── **init**.py      \# Makes the directory a package
+│   └── counter.py       \# Main application logic (the WordCounter class)
+├── tests/                 \# Directory for all automated tests
+│   └── test\_counter.py    \# Unit tests for the WordCounter class
+├── .gitignore             \# Specifies files for Git to ignore
+├── pyproject.toml         \# Project configuration for installation
+├── README.md              \# Project documentation (this file)
+└── requirements.txt       \# List of project dependencies
 
-The core of our application was built using a class-based structure, which provides a logical blueprint for our code.
+```
 
-* **Classes & Objects:** A `WordCounter` class was created to serve as the blueprint. We then learned to instantiate this class to create a tangible `WordCounter` object, a live instance of our tool.
+## Core Logic & Advanced Concepts
+The "engine" of the application was built using a combination of Object-Oriented and functional programming concepts to create clean and efficient code. This included mastering:
 
-* **Encapsulation (`__init__` & `self`):** The `__init__` constructor was used to initialize each object with its own data (like the file path). The `self` keyword was mastered as the mechanism that allows an object to refer to its own attributes and methods, keeping its state separate from other objects.
+* **Classes and Objects (`WordCounter`):** Using a class as a blueprint to create tangible `WordCounter` objects.
+* **Encapsulation (`__init__` & `self`):** Using the constructor to initialize each object's state and `self` to maintain that state across methods.
+* **Magic Methods (`__str__`, `__len__`):** Implementing these to allow our custom objects to work intuitively with built-in Python functions like `print()` and `len()`.
+* **Advanced Concepts:** A deep dive into **Inheritance**, **Polymorphism**, **Decorators**, **Generators**, and **Context Managers (`with` statement)** to understand the full power of the Python language.
 
-* **Inheritance & Polymorphism:** We explored how a "child" class can inherit properties and methods from a "parent" class, promoting code reuse. We then learned about polymorphism—the principle that allows different objects to respond to the same method call (e.g., `.drive()`) in their own unique, appropriate ways.
+## Robustness and Automated Testing
+Writing code that works is only half the battle. A professional engineer must also prove their code is reliable. This was the focus of Segment 3.
 
-### 2. Advanced Functional Concepts
+### The "Safety Net"
+Automated tests are the safety net that catches bugs before they reach production. For this project, we used **`pytest`**, the industry-standard testing framework for Python. `pytest` automatically discovers and runs our tests, providing a clear and immediate report on the health of our codebase.
 
-Beyond OOP, we integrated several of Python's powerful functional features to make our code cleaner and more efficient.
+### Unit Tests
+We created a suite of unit tests in the `tests/test_counter.py` file. Each test is a small, focused function designed to verify one specific piece of our application's behavior. The tests cover two key scenarios:
+1.  **`test_word_counting`:** This test checks the "happy path." It creates a temporary file with known content and **asserts** that the `WordCounter` class produces the exact word counts we expect.
+2.  **`test_file_not_found`:** This test checks the "unhappy path." It ensures that if our `WordCounter` is given a path to a non-existent file, it handles the error gracefully and returns `None` instead of crashing.
 
-* **Context Managers (`with` statement):** We learned that the `with open(...)` statement is a context manager. This is a critical feature for writing robust code, as it guarantees that resources like files are automatically and safely closed, even if errors occur during processing.
+### Test Coverage
+To ensure our tests were thorough, we measured our **test coverage**. Coverage tells us what percentage of our application code was actually executed during the test run. Using the `pytest-cov` plugin, we achieved **100% test coverage**, meaning every single line of our `counter.py` logic is protected by our automated safety net.
 
-* **Decorators:** Using the "gift wrapper" analogy, we learned how decorators can add extra functionality (like logging or timing) to existing functions without modifying their internal code. This promotes the DRY (Don't Repeat Yourself) principle.
-
-* **Generators (`yield`):** We explored how generators can be used to process huge datasets (like a 100 GB file) in a memory-efficient way. By using `yield`, a function can produce a sequence of values one at a time, without ever needing to load the entire sequence into memory.
-
-## Project Application: The `WordCounter` Class
-
-All of these concepts were applied to the development of the `wordcount_tool/counter.py` module.
-
-```python
-# wordcount_tool/counter.py
-import re
-
-class WordCounter:
-    """A simple class to count words in a text file."""
-
-    def __init__(self, filepath):
-        """Initializes the WordCounter with the path to a file."""
-        self.filepath = filepath
-        self.word_counts = {}
-
-    def count_words(self):
-        """Reads, cleans, and counts the words in the file."""
-        try:
-            with open(self.filepath, 'r') as f:
-                text = f.read()
-                # Text is cleaned (lowercase, punctuation removed)
-                # and processed line by line.
-                # ... (logic as implemented) ...
-            return self.word_counts
-        except FileNotFoundError:
-            # Error handling for robustness
-            return None
+## Usage
+*Instructions for setting up the environment, installing dependencies, and running the tool will be added in the final segment.*
+```
